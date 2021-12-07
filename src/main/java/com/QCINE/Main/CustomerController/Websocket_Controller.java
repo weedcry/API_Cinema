@@ -3,6 +3,7 @@ package com.QCINE.Main.CustomerController;
 import com.QCINE.Main.Entity.Customer_Entity;
 import com.QCINE.Main.Entity.User_Entity;
 import com.QCINE.Main.Repository.Customer_Repository;
+import com.QCINE.Main.Repository.User_Repository;
 import com.QCINE.Main.Service.Customer_Service;
 import com.QCINE.Main.Service.User_Service;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,12 +26,16 @@ public class Websocket_Controller {
     @Autowired
     Customer_Repository customer_repository;
 
+    @Autowired
+    User_Repository user_repository;
+
     @MessageMapping("/chat.sendMessage/seat")
     public void sendMessage(@Payload Map<String,String> message) {
         //gửi message đến tất cả customer
         List<Customer_Entity> listCus = customer_repository.findAll();
-        for(Customer_Entity customer : listCus) {
-            simpMessagingTemplate.convertAndSend("/message_receive/"+customer.getIdCustomer(),message.get("ghe"));
+        List<User_Entity> listUser = user_repository.findAll();
+        for(User_Entity user : listUser) {
+            simpMessagingTemplate.convertAndSend("/message_receive/"+user.getIdUser(),message.get("ghe"));
         }
     }
 
