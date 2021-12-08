@@ -69,6 +69,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/payment/**").permitAll()
                 .antMatchers("/api/customer/comment/page").permitAll()
                 .antMatchers("/api/customer/voucher/get").permitAll()
+                .antMatchers("/api/customer/holiday/get").permitAll()
                 .antMatchers("/api/customer/loaiphim/get").permitAll()
                 .antMatchers("/api/customer/khuvuc/get").permitAll()
                 .antMatchers("/api/customer/lich/**").permitAll()
@@ -101,10 +102,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.PUT,"/admin/phim/**").hasAuthority("AUTHOR")
                 .antMatchers(HttpMethod.DELETE,"/admin/phim/**").hasAuthority("AUTHOR")
 
-                .antMatchers(HttpMethod.POST,"/admin/phong/**").hasAuthority("AUTHOR")
-                .antMatchers(HttpMethod.PUT,"/admin/phong/**").hasAuthority("AUTHOR")
-                .antMatchers(HttpMethod.DELETE,"/admin/phong/**").hasAuthority("AUTHOR")
-
                 .antMatchers(HttpMethod.POST,"/admin/voucher/**").hasAuthority("AUTHOR")
                 .antMatchers(HttpMethod.PUT,"/admin/voucher/**").hasAuthority("AUTHOR")
                 .antMatchers(HttpMethod.DELETE,"/admin/voucher/**").hasAuthority("AUTHOR")
@@ -135,6 +132,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers(HttpMethod.POST,"/admin/lich/**").hasAnyAuthority("AUTHOR","ADMIN")
                 .antMatchers(HttpMethod.PUT,"/admin/lich/**").hasAnyAuthority("AUTHOR","ADMIN")
                 .antMatchers(HttpMethod.DELETE,"/admin/lich/**").hasAnyAuthority("AUTHOR","ADMIN")
+
+                .antMatchers(HttpMethod.POST,"/admin/phong/**").hasAnyAuthority("AUTHOR","ADMIN")
+                .antMatchers(HttpMethod.PUT,"/admin/phong/**").hasAnyAuthority("AUTHOR","ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/admin/phong/**").hasAnyAuthority("AUTHOR","ADMIN")
+
+                .antMatchers(HttpMethod.POST,"/admin/holidays/**").hasAnyAuthority("AUTHOR","ADMIN")
+                .antMatchers(HttpMethod.PUT,"/admin/holidays/**").hasAnyAuthority("AUTHOR","ADMIN")
+                .antMatchers(HttpMethod.DELETE,"/admin/holidays/**").hasAnyAuthority("AUTHOR","ADMIN")
+
+                .antMatchers(HttpMethod.POST,"/admin/week/**").hasAnyAuthority("AUTHOR","ADMIN")
+                .antMatchers(HttpMethod.GET,"/admin/week/**").hasAnyAuthority("AUTHOR","ADMIN")
 
                 .antMatchers("/admin/**").hasAnyAuthority("AUTHOR","ADMIN")
                 .anyRequest().authenticated();

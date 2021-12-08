@@ -142,17 +142,13 @@ public class Hoadon_Service {
 
             //set total
             float totalN = total - giamgia;
+            if(totalN < 0){
+                totalN = 0;
+            }
+            hoaDon_entity.setTotal(totalN);
 
             //set point
             hoaDon_entity.setUsedPoint(infoThanhtoan.getUsedPoint());
-            if(infoThanhtoan.getUsedPoint() > 0){
-                totalN = totalN - infoThanhtoan.getUsedPoint();
-                if(totalN < 0){
-                    totalN = 0;
-                }
-            }
-
-            hoaDon_entity.setTotal(totalN);
 
             HoaDon_Entity finalHD = hoaDon_repository.save(hoaDon_entity);
 
@@ -198,7 +194,7 @@ public class Hoadon_Service {
         try {
             HoaDon_Entity hoaDon_entity = hoaDon_repository.findByIdHoaDon(idHoadon);
             if(hoaDon_entity.getCustomerEntity().getUserEntity().getUsername().equals(username) &&
-                hoaDon_entity.getTinhTrang().equals(HoaDon_Entity.eTinhTrang.thanhCong)){
+                    hoaDon_entity.getTinhTrang().equals(HoaDon_Entity.eTinhTrang.thanhCong)){
 
                 // check time cancel
                 Date timeN = new Date();
