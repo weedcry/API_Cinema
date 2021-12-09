@@ -136,6 +136,7 @@ public class Customer_Service {
         try {
             User_Entity user = user_repository.findByUsername(username).get();
             user.setPassword(encoder.encode(newpass));
+            user_repository.save(user);
         }catch (Exception e){
             MessageResponse mes = new MessageResponse("error");
             return mes;

@@ -2,11 +2,8 @@ package com.QCINE.Main.Service;
 
 import com.QCINE.Main.DTO.Comment_DTO;
 import com.QCINE.Main.DTO.ResultPageComment;
-import com.QCINE.Main.Entity.Comment_Entity;
-import com.QCINE.Main.Entity.Customer_Entity;
+import com.QCINE.Main.Entity.*;
 import com.QCINE.Main.Entity.Embedded.CommentId;
-import com.QCINE.Main.Entity.HoaDon_Entity;
-import com.QCINE.Main.Entity.Phim_Entity;
 import com.QCINE.Main.Repository.Comment_Repository;
 import com.QCINE.Main.Repository.Hoadon_Repository;
 import com.QCINE.Main.Repository.Phim_Repository;
@@ -20,6 +17,9 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.ObjectUtils;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -99,7 +99,7 @@ public class Comment_Service {
     }
 
 
-    public boolean checkComment(int idphim ,String username){
+    public boolean checkComment(int idphim ,String username) throws ParseException {
         Customer_Entity customer_entity = customer_service.findCustomerEntityByUsername(username);
         Phim_Entity phim_entity = phim_repository.findByIdPhim(idphim);
 
@@ -108,16 +108,27 @@ public class Comment_Service {
         }
 
         List<HoaDon_Entity> list = hoadon_repository.findByCustomerEntity(customer_entity);
+        Lich_Entity lichT = new Lich_Entity();
         boolean kt = false;
         for(HoaDon_Entity hoadon : list){
             if(hoadon.getLichEntity().getPhimEntity().getIdPhim() == idphim){
                 kt = true;
+                lichT = hoadon.getLichEntity();
                 break;
             }
         }
 
         if(!kt){
-            return true;
+            return false;
+        }
+
+        // check time comment
+        Date timeN = new Date();
+        String strDate = lichT.getNgay().toString();
+        String strTime = lichT.getGio().toString();
+        Date TimeC = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").parse(strDate +" "+strTime);
+        if (( timeN.getTime() - TimeC.getTime() < 0)){
+            return  false;
         }
 
         Comment_Entity comment_entity = comment_repository.findByPhimAndCustomer(phim_entity,customer_entity);

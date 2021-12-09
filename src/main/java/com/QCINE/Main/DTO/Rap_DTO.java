@@ -1,6 +1,5 @@
 package com.QCINE.Main.DTO;
 
-import com.QCINE.Main.Entity.KhuVuc_Entity;
 
 public class Rap_DTO {
     private String idRap;

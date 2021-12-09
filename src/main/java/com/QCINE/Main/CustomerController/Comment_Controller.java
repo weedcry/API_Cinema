@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import java.text.ParseException;
 
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -33,7 +34,7 @@ public class Comment_Controller {
     }
 
     @PostMapping("/check/{id}")
-    public ResponseEntity<Object> checkCmt(@PathVariable int id){
+    public ResponseEntity<Object> checkCmt(@PathVariable int id) throws ParseException {
         String username = null;
         Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         if (principal instanceof UserDetails) {
@@ -41,7 +42,7 @@ public class Comment_Controller {
         }
 
         boolean check = comment_service.checkComment(id,username);
-        if(!check){
+        if(check){
             return ResponseEntity.status(HttpStatus.OK).body("can comment");
         }
         return new ResponseEntity<Object>("can't comment",HttpStatus.BAD_REQUEST);

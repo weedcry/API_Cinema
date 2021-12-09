@@ -33,25 +33,29 @@ public class PasswordResetToken_Service {
         try {
             User_Entity user = user_repository.findByEmail(email);
             if(ObjectUtils.isEmpty(user)){
+                System.out.println("user not found");
                 return "";
             }
 
             PasswordResetToken resetToken = repository.findByUser(user);
             if(ObjectUtils.isEmpty(resetToken)){
+                System.out.println("reset token not found");
                 return "";
             }
             boolean check = encoder.matches(code,resetToken.getCode());
             if(!check){
+                System.out.println("token not found");
                 return "";
             }
 
             Date timeN = new Date();
             if(timeN.getTime() > resetToken.getExpiryDate()){
+                System.out.println("time out "+timeN.getTime() + " - "+resetToken.getExpiryDate());
                 return "";
             }
 
             String tokenT = encoder.encode(value);
-            resetToken.setExpiryDate((timeN.getTime()+(30000))); // 5 phút
+            resetToken.setExpiryDate((timeN.getTime()+(300000))); // 5 phút
             resetToken.setToken(tokenT);
             resetToken.setCode("");
             repository.save(resetToken);
@@ -78,7 +82,8 @@ public class PasswordResetToken_Service {
             }
             resetToken.setUser(user);
             Date timeN = new Date();
-            resetToken.setExpiryDate((timeN.getTime()+(9000))); // 1 phút 30s
+            resetToken.setExpiryDate((timeN.getTime()+(90000))); // 1 phút 30s
+            System.out.println("expiryDate "+ timeN.getTime()+" - "+ resetToken.getExpiryDate());
             resetToken.setCode(encoder.encode(String.valueOf(code)));
             repository.save(resetToken);
 

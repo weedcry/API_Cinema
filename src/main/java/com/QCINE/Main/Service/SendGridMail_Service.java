@@ -84,7 +84,6 @@ public class SendGridMail_Service {
             mail.setTemplateId("d-a8b0101b6bbb478185ad7b5f543ccd44");
         }else{
             if(status.equals("code")){
-                System.out.println("send code");
                 personalization.addDynamicTemplateData("code reset password", "code reset password");
                 personalization.addDynamicTemplateData("code", codeS);
                 mail.addPersonalization(personalization);
@@ -130,7 +129,6 @@ public class SendGridMail_Service {
             request.setBody(mail.build());
             Response response = sg.api(request);
             logger.info(response.getBody());
-            System.out.println("send success");
             return response.getBody();
         } catch (IOException ex) {
             System.out.println("Excep loi "+ex);
