@@ -19,7 +19,6 @@ public class Lich_Entity {
     @DateTimeFormat(pattern="dd/MM/yyyy")
     private Date ngay;
 
-
     private Time gio;
 
     @Temporal(TemporalType.TIMESTAMP)

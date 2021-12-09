@@ -84,10 +84,24 @@ public class Lich_Service {
             Date datef = new SimpleDateFormat("dd-MM-yyyy").parse( time );
             if(idphim == 0){
                 // get lich from rap and date
-                listLich = lich_repository.findByNgayAndIdrap(datef,idrap);
+
+                try {
+                    Thread.sleep(1000);
+                    listLich = lich_repository.findByNgayAndIdrap(datef,idrap);
+                }
+                catch (Exception e){
+                    System.err.println(e);
+                }
             }else{
                 // get lich from ngay , phim and rap
-                listLich = lich_repository.findByNgayAndIdphimAndIdrap(datef,idphim,idrap);
+
+                try {
+                    Thread.sleep(1000);
+                    listLich = lich_repository.findByNgayAndIdphimAndIdrap(datef,idphim,idrap);
+                }
+                catch (Exception e){
+                    System.err.println(e);
+                }
             }
 
             //
@@ -137,8 +151,13 @@ public class Lich_Service {
         try {
             Date datef = new SimpleDateFormat("dd-MM-yyyy").parse( time );
                 // get lich from ngay and phim and khu vuc
+            try {
+                Thread.sleep(1000);
                 listLich = lich_repository.findByNgayAndIdphimAndIdKhuvuc(datef,idphim,idkhuvuc);
-
+            }
+            catch (Exception e){
+                System.err.println(e);
+            }
             //
             String idRapCount = "";
             int hourN = new Date().getHours();
@@ -188,14 +207,32 @@ public class Lich_Service {
             else sort = new Sort(Sort.Direction.DESC, orderBy);
 
             Pageable pageable = new PageRequest(pageNum, size, sort);
-            Page<Lich_Entity> pageLich;
+            Page<Lich_Entity> pageLich = null;
 
             if (date.isPresent() && time.isPresent()) { //Get Lich in Date and time after...
-                pageLich = lich_repository.getAllByNgayAndGioAfter(date.get(), time.get(), pageable);
+                try {
+                    Thread.sleep(1000);
+                    pageLich = lich_repository.getAllByNgayAndGioAfter(date.get(), time.get(), pageable);
+                }
+                catch (Exception e){
+                    System.err.println(e);
+                }
             } else if (date.isPresent() && !time.isPresent()) { //Get Lich in Date after...
-                pageLich = lich_repository.getAllByNgayAfter(date.get(), pageable);
+                try {
+                    Thread.sleep(1000);
+                    pageLich = lich_repository.getAllByNgayAfter(date.get(), pageable);
+                }
+                catch (Exception e){
+                    System.err.println(e);
+                }
             } else { //Get all Lich
-                pageLich = lich_repository.getAllByPhongEntityRapEntityIdRap(idRap, pageable);
+                try {
+                    Thread.sleep(1000);
+                    pageLich = lich_repository.getAllByPhongEntityRapEntityIdRap(idRap, pageable);
+                }
+                catch (Exception e){
+                    System.err.println(e);
+                }
             }
             List<Lich_DTO> lich_dtos = new ArrayList<>();
             Lich_Filtered result = new Lich_Filtered();
@@ -218,9 +255,15 @@ public class Lich_Service {
 
     public List<Lich_DTO> getLichFilteredBy_Ngay_Phim_Rap(String idRap, Lich_DTO lich){
         List<Lich_DTO> result = new ArrayList<>();
-
+        List<Lich_Entity> lich_entities = new ArrayList<>();
         try{
-            List<Lich_Entity> lich_entities = lich_repository.getLichFilteredBy_ngay_phim_rap(lich.getNgay(), lich.getPhimEntityIdPhim(), idRap);
+            try {
+                Thread.sleep(1000);
+                lich_entities = lich_repository.getLichFilteredBy_ngay_phim_rap(lich.getNgay(), lich.getPhimEntityIdPhim(), idRap);
+            }
+            catch (Exception e){
+                System.err.println(e);
+            }
             if (lich_entities!= null){
                 for (Lich_Entity temp: lich_entities){
                     result.add(mapper.map(temp, Lich_DTO.class));

@@ -81,13 +81,14 @@ public class SendGridMail_Service {
             personalization.addDynamicTemplateData("welcome", "welcome");
             personalization.addDynamicTemplateData("name",name);
             mail.addPersonalization(personalization);
-            mail.setTemplateId("d-e6f08b6353e04b1fa37659494ee56769");
+            mail.setTemplateId("d-a8b0101b6bbb478185ad7b5f543ccd44");
         }else{
             if(status.equals("code")){
+                System.out.println("send code");
                 personalization.addDynamicTemplateData("code reset password", "code reset password");
                 personalization.addDynamicTemplateData("code", codeS);
                 mail.addPersonalization(personalization);
-                mail.setTemplateId("d-4d9fefed64b84d4797f24f283811fc57");
+                mail.setTemplateId("d-86e5ab0a75ef4dcd95c57eea59e11b21");
             }else{ // hoa don
 
                 Lich_Entity lich = lich_repository.findByIdLich(lichid);
@@ -115,7 +116,7 @@ public class SendGridMail_Service {
                 personalization.addDynamicTemplateData("hinhanh",lich.getPhimEntity().getAnh());
                 mail.addPersonalization(personalization);
 //                mail.setTemplateId("d-9dac532ef22340ab9c3b9cdfcf0a86ce");
-                mail.setTemplateId("d-113e2f7461974371ac087ad3ac103087");
+                mail.setTemplateId("d-b321081c8084434c95fee7e8e13bc2ed");
             }
         }
 
@@ -129,6 +130,7 @@ public class SendGridMail_Service {
             request.setBody(mail.build());
             Response response = sg.api(request);
             logger.info(response.getBody());
+            System.out.println("send success");
             return response.getBody();
         } catch (IOException ex) {
             System.out.println("Excep loi "+ex);

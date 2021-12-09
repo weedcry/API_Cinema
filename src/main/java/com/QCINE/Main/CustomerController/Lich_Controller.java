@@ -30,6 +30,7 @@ public class Lich_Controller {
 
         if(idkhuvuc.equals("0")){
             List<ListLichFromPhim_DTO> listLich = lich_service.getLichPhimFromPhim(idphim,time,idrap);
+            System.out.println(" get list "+listLich.size());
             if(listLich.size() > 0){
                 return ResponseEntity.status(HttpStatus.OK).body(listLich);
             }
